@@ -6,7 +6,6 @@ import 'package:matp/pages/util.dart';
 
 //const String BASE_API = "http://docker101.tk/api/products/add";
 
-
 class AddPrice extends StatefulWidget {
   const AddPrice({Key? key}) : super(key: key);
 
@@ -16,12 +15,11 @@ class AddPrice extends StatefulWidget {
 
 class _AddPriceState extends State<AddPrice> {
   final TextEditingController _controllerName = new TextEditingController();
-  final TextEditingController _controllerDescription = new TextEditingController();
+  final TextEditingController _controllerDescription =
+      new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Price"),
@@ -30,11 +28,13 @@ class _AddPriceState extends State<AddPrice> {
     );
   }
 
-  Widget getBody(){
+  Widget getBody() {
     return ListView(
       padding: EdgeInsets.all(30),
       children: <Widget>[
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         TextField(
           controller: _controllerName,
           cursorColor: Colors.pink,
@@ -42,8 +42,9 @@ class _AddPriceState extends State<AddPrice> {
             hintText: "Store",
           ),
         ),
-
-        SizedBox(height: 40,),
+        SizedBox(
+          height: 40,
+        ),
         TextField(
           controller: _controllerDescription,
           cursorColor: Colors.pink,
@@ -51,16 +52,20 @@ class _AddPriceState extends State<AddPrice> {
             hintText: "Price",
           ),
         ),
-        SizedBox(height: 50,),
+        SizedBox(
+          height: 50,
+        ),
         FlatButton(
             color: Colors.blue,
-            onPressed: (){
-              createNewProduct();
-            }, child: Text("Save",style: TextStyle(color: Colors.white),))
+            onPressed: () {
+              //createNewProduct();
+            },
+            child: Text(
+              "Save",
+              style: TextStyle(color: Colors.white),
+            ))
       ],
     );
-
-
 
     /*
 
@@ -121,38 +126,34 @@ class _AddPriceState extends State<AddPrice> {
      */
   }
 
-
   ///////////////////////////////////////////
-  createNewProduct() async {
-    var name = _controllerName.text;
-    var description = _controllerDescription.text;
-    if(name.isNotEmpty && description.isNotEmpty){
-      var url = Uri.parse("http://localhost:3000/api/products/add");
-      var bodyData = json.encode({
-        "name" : name,
-        "description" : description
-      });
-      var response = await http.post(url,headers: {
-        "Content-Type" : "application/json",
-        "Accept" : "application/json"
-      },body: bodyData);
-      if(response.statusCode == 200){
-        var message = json.decode(response.body)['message'];
-        showMessage(context,message);
-        setState(() {
-          _controllerName.text = "";
-          _controllerDescription.text = "";
-        });
-      }else {
-        var messageError = "Can not create new user!!";
-        showMessage(context,messageError);
-      }
+  // createNewProduct() async {
+  //   var name = _controllerName.text;
+  //   var description = _controllerDescription.text;
+  //   if(name.isNotEmpty && description.isNotEmpty){
+  //     var url = Uri.parse("http://localhost:3000/api/products/add");
+  //     var bodyData = json.encode({
+  //       "name" : name,
+  //       "description" : description
+  //     });
+  //     var response = await http.post(url,headers: {
+  //       "Content-Type" : "application/json",
+  //       "Accept" : "application/json"
+  //     },body: bodyData);
+  //     if(response.statusCode == 200){
+  //       var message = json.decode(response.body)['message'];
+  //       showMessage(context,message);
+  //       setState(() {
+  //         _controllerName.text = "";
+  //         _controllerDescription.text = "";
+  //       });
+  //     }else {
+  //       var messageError = "Can not create new user!!";
+  //       showMessage(context,messageError);
+  //     }
 
-    }
-  }
+  //   }
+  // }
 /////////////////////////////
 
-
-
 }
-

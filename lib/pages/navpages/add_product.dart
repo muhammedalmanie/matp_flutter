@@ -6,17 +6,15 @@ import 'package:matp/pages/util.dart';
 
 //const String BASE_API = "http://docker101.tk/api/products/add";
 
-
-showMessage(BuildContext context,String contentMessage) {
-
-
+showMessage(BuildContext context, String contentMessage) {
   Widget yesButton = FlatButton(
-    child: Text("OK",style: TextStyle(color: Colors.blue)),
-    onPressed:  () {
+    child: Text("OK", style: TextStyle(color: Colors.blue)),
+    onPressed: () {
       Navigator.pop(context);
 
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-          ProductsPage()), (Route<dynamic> route) => false);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => ProductsPage()),
+          (Route<dynamic> route) => false);
     },
   );
 
@@ -37,7 +35,6 @@ showMessage(BuildContext context,String contentMessage) {
   );
 }
 
-
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
 
@@ -47,14 +44,14 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   final TextEditingController _controllerName = new TextEditingController();
-  final TextEditingController _controllerDescription = new TextEditingController();
+  final TextEditingController _controllerDescription =
+      new TextEditingController();
   final TextEditingController _controllerBarcode = new TextEditingController();
   final TextEditingController _controllerStoreID = new TextEditingController();
   final TextEditingController _controllerPrice = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Product Creation"),
@@ -63,11 +60,13 @@ class _AddProductState extends State<AddProduct> {
     );
   }
 
-  Widget getBody(){
+  Widget getBody() {
     return ListView(
       padding: EdgeInsets.all(30),
       children: <Widget>[
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         TextField(
           controller: _controllerName,
           cursorColor: Colors.pink,
@@ -75,7 +74,9 @@ class _AddProductState extends State<AddProduct> {
             hintText: "Name",
           ),
         ),
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         TextField(
           controller: _controllerDescription,
           cursorColor: Colors.pink,
@@ -83,9 +84,9 @@ class _AddProductState extends State<AddProduct> {
             hintText: "Description",
           ),
         ),
-
-
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         TextField(
           controller: _controllerBarcode,
           cursorColor: Colors.pink,
@@ -93,8 +94,9 @@ class _AddProductState extends State<AddProduct> {
             hintText: "Barcode",
           ),
         ),
-
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         TextField(
           controller: _controllerStoreID,
           cursorColor: Colors.pink,
@@ -102,8 +104,9 @@ class _AddProductState extends State<AddProduct> {
             hintText: "Store ID",
           ),
         ),
-
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         TextField(
           controller: _controllerPrice,
           cursorColor: Colors.pink,
@@ -126,17 +129,20 @@ class _AddProductState extends State<AddProduct> {
         ),
 */
 
-        SizedBox(height: 40,),
+        SizedBox(
+          height: 40,
+        ),
         FlatButton(
             color: Colors.blue,
-            onPressed: (){
+            onPressed: () {
               createNewProduct();
-            }, child: Text("Done",style: TextStyle(color: Colors.white),))
+            },
+            child: Text(
+              "Done",
+              style: TextStyle(color: Colors.white),
+            ))
       ],
     );
-
-
-
 
     /*
     Widget buildTextfield(String hint, TextEditingController controller ){
@@ -197,46 +203,43 @@ class _AddProductState extends State<AddProduct> {
 
   ///////////////////////////////////////////
   createNewProduct() async {
-
     var name = _controllerName.text;
     var description = _controllerDescription.text;
     var barcode = _controllerBarcode.text;
     var storeID = _controllerStoreID.text;
     var price = _controllerPrice.text;
 
-   // && barcode.isNotEmpty && storeID.isNotEmpty && price.isNotEmpty
+    // && barcode.isNotEmpty && storeID.isNotEmpty && price.isNotEmpty
 
-    if(name.isNotEmpty && description.isNotEmpty){
-
-
-      var url = Uri.parse("http://localhost:3000/products/add");
+    if (name.isNotEmpty && description.isNotEmpty) {
+      var url = Uri.parse("http://localhost:3000/api/products/add");
       var bodyData = json.encode({
-        "name" : name,
-        "description" : description,
-        "barcode" : barcode,
-        "storeID" : storeID,
-        "price" : price,
+        "name": name,
+        "description": description,
+        "barcode": barcode,
+        "storeID": storeID,
+        "price": price,
       });
-      var response = await http.post(url,headers: {
-        "Content-Type" : "application/json",
-        "Accept" : "application/json"
-      },body: bodyData);
-      if(response.statusCode == 200){
-        var message = json.decode(response.body)['message'];
-        showMessage(context,message);
+      var response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: bodyData);
+      if (response.statusCode == 200 && !json.decode(response.body)['error']) {
         setState(() {
           _controllerName.text = "";
           _controllerDescription.text = "";
         });
-      }else {
-        var messageError = "Can not create new product!!";
-        showMessage(context,messageError);
+      } else if (json.decode(response.body)['error']) {
+        var message = json.decode(response.body)['message'];
+        showMessage(context, message);
+      } else {
+        var messageError = "Couldn't not connect!!";
+        showMessage(context, messageError);
       }
     }
   }
   /////////////////////////////
 
-
-
 }
-

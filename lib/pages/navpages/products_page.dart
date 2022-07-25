@@ -1,12 +1,14 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:matp/models/product_model.dart';
 import 'package:matp/pages/navpages/add_product.dart';
 import 'package:matp/pages/navpages/product_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:matp/pages/navpages/edit_product.dart';
+// import 'package:matp/pages/navpages/edit_product.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({Key? key}) : super(key: key);
@@ -49,7 +51,7 @@ class _ProductsPageState extends State<ProductsPage> {
         isLoading = true; //
         products = jsonResponse[
             'products']; //get all the data from json string superheros
-        print(products.length); // just printed length of data
+        // print(produc.length); // just printed length of data
       });
     } else {
       print(response.statusCode);
@@ -124,10 +126,7 @@ class _ProductsPageState extends State<ProductsPage> {
                         builder: (context) => ProductDetails(index)));
               },*/
 
-
-
   Widget cardItem(item) {
-
     return Slidable(
       // Specify a key if the Slidable is dismissible.
       key: const ValueKey(0),
@@ -147,7 +146,10 @@ class _ProductsPageState extends State<ProductsPage> {
             onPressed:
                 //(){print('You pressed the button.');},
                 //showDeleteAlert(context, item),
-                doNothing,
+                //deleteProduct(item['_id']),
+                (context) {
+              deleteProduct(item);
+            },
             backgroundColor: Color(0xFFFE4A49),
             foregroundColor: Colors.white,
             icon: Icons.delete,
@@ -196,30 +198,32 @@ class _ProductsPageState extends State<ProductsPage> {
       ),
     );
   }
-    editProduct(item) {
+
+  editProduct(item) {
     var id = item['_id'].toString();
     var name = item['name'].toString();
     var description = item['description'].toString();
-    Navigator.push(
-         context,
-         MaterialPageRoute(
-             builder: (context) => EditProduct(
-                   id: id,
-                   name: name,
-                   description: description,
-                 )));
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => EditProduct(
+    //               id: id,
+    //               name: name,
+    //               description: description,
+    //             )));
   }
 
-
-  deleteProduct(id) async {
-    var url = Uri.parse("http://localhost:3000/api/products/delete/:$id");
-    var response = await http.post(url, headers: {
+  deleteProduct(item) {
+    log("message");
+    var url = Uri.http("localhost:3000", "/api/products/", {'id': item['_id']});
+    var response = http.delete(url, headers: {
       "Content-Type": "application/json",
       "Accept": "application/json"
     });
-    if (response.statusCode == 200) {
-      this.getData();
-    }
+    response.then((value) => {
+          if (value.statusCode == 200 && jsonDecode(value.body)['error'])
+            {getData()}
+        });
   }
 
   showDeleteAlert(BuildContext context, item) {
@@ -261,8 +265,15 @@ class _ProductsPageState extends State<ProductsPage> {
     );
   }
 
-  void doNothing(BuildContext context) {print("delete");}
+  void doNothing(BuildContext context) {
+    print("delete");
+  }
 
+  // void deleteProduct2()async{
+  //       await http.delete(Uri.parse("http://localhost:3000/api/products/:$id"));
+  //        Navigator.of(context).pushAndRemoveUntil(
+  //           MaterialPageRoute(builder: (BuildContext context) => ProductsPage()),
+  //           (Route<dynamic> route) => false);
+  //     }
 
 }
-

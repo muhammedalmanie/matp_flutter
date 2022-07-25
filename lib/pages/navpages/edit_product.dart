@@ -7,7 +7,8 @@ class EditProduct extends StatefulWidget {
   String id;
   String name;
   String description;
-  EditProduct({required this.id,required this.name,required this.description});
+  EditProduct(
+      {required this.id, required this.name, required this.description});
   @override
   _EditProductState createState() => _EditProductState();
 }
@@ -21,15 +22,13 @@ class _EditProductState extends State<EditProduct> {
     // TODO: implement initState
     super.initState();
 
-
     setState(() {
       id = widget.id;
       _controllerFullName.text = widget.name;
       _controllerEmail.text = widget.description;
     });
-
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +38,14 @@ class _EditProductState extends State<EditProduct> {
       body: getBody(),
     );
   }
-  Widget getBody(){
+
+  Widget getBody() {
     return ListView(
       padding: EdgeInsets.all(30),
       children: <Widget>[
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         TextField(
           controller: _controllerFullName,
           cursorColor: Colors.black38,
@@ -51,7 +53,9 @@ class _EditProductState extends State<EditProduct> {
             hintText: "name",
           ),
         ),
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         TextField(
           controller: _controllerEmail,
           cursorColor: Colors.black38,
@@ -59,37 +63,41 @@ class _EditProductState extends State<EditProduct> {
             hintText: "description",
           ),
         ),
-        SizedBox(height: 40,),
+        SizedBox(
+          height: 40,
+        ),
         FlatButton(
             color: Colors.black38,
-            onPressed: (){
+            onPressed: () {
               editProduct();
-            }, child: Text("Done",style: TextStyle(color: Colors.white),))
+            },
+            child: Text(
+              "Done",
+              style: TextStyle(color: Colors.white),
+            ))
       ],
     );
   }
-  editProduct() async {
 
+  editProduct() async {
     var name = _controllerFullName.text;
     var description = _controllerEmail.text;
-    if(name.isNotEmpty && description.isNotEmpty){
-      var url = Uri.parse("http://localhost:3000/api/products/edit/:$id");
-      var bodyData = json.encode({
-        "name" : name,
-        "description" : description
-      });
-      var response = await http.post(url,headers: {
-        "Content-Type" : "application/json",
-        "Accept" : "application/json"
-      },body: bodyData);
-      if(response.statusCode == 200){
+    if (name.isNotEmpty && description.isNotEmpty) {
+      var url = Uri.parse("http://localhost:3000/api/products/edit");
+      var bodyData = json.encode({"name": name, "description": description});
+      var response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: bodyData);
+      if (response.statusCode == 200) {
         var messageSuccess = json.decode(response.body)['message'];
-        showMessage(context,messageSuccess);
-      }else {
+        showMessage(context, messageSuccess);
+      } else {
         var messageError = "Can not update this product!!";
-        showMessage(context,messageError);
+        showMessage(context, messageError);
       }
     }
   }
 }
-

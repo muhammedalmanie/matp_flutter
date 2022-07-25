@@ -1,37 +1,36 @@
-  class ProductModel {
-    late String? id;
-    late String? Image;
-    late String? Name;
-    late String? Description;
-    late String? Barcode;
-    late String? Store;
+List<ProductModel> productsFromJson(dynamic str) =>
+    List<ProductModel>.from((str).map((x) => ProductModel.fromJson(x)));
 
-    late int? Price;
+class ProductModel {
+  late String? id;
+  late String? Image;
+  late String? Name;
+  late String? Description;
+  late String? Barcode;
+  late String? Store;
 
+  late int? Price;
 
-  ProductModel({
-      this.id,
+  ProductModel(
+      {this.id,
       this.Image,
       this.Name,
       this.Description,
       this.Barcode,
       this.Store,
-      this.Price
-    });
+      this.Price});
 
+  ProductModel.fromJson(Map<String, dynamic> json) {
+    id = json["_id"];
+    Image = json["image"];
+    Name = json["name"];
+    Description = json["description"];
+    Barcode = json["barcode"];
+    Store = json["store"];
+    Price = json["productPrice"];
+  }
 
-  ProductModel.fromJson(Map<String, dynamic> json){
-    id = json ["_id"];
-    Image = json ["image"];
-    Name = json ["name"];
-    Description = json ["description"];
-    Barcode = json ["barcode"];
-    Store = json ["store"];
-    Price = json ["productPrice"];
-    }
-
-
-  Map<String, dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
 
     _data["_id"] = id;
@@ -44,8 +43,4 @@
 
     return _data;
   }
-
-
-
-
-    }
+}
