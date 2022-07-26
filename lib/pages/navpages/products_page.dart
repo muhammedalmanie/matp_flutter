@@ -8,7 +8,7 @@ import 'package:matp/pages/navpages/add_product.dart';
 import 'package:matp/pages/navpages/product_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-// import 'package:matp/pages/navpages/edit_product.dart';
+import 'package:matp/pages/navpages/edit_product.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({Key? key}) : super(key: key);
@@ -147,6 +147,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 //(){print('You pressed the button.');},
                 //showDeleteAlert(context, item),
                 //deleteProduct(item['_id']),
+
                 (context) {
               deleteProduct(item);
             },
@@ -161,6 +162,11 @@ class _ProductsPageState extends State<ProductsPage> {
                 //print('You pressed the button.'),
                 //editProduct(item),
                 doNothing,
+
+            // (context) {
+            //           editProduct(item);
+            //         },
+
             backgroundColor: Color(0xFF21B7CA),
             foregroundColor: Colors.white,
             icon: Icons.edit,
@@ -203,14 +209,21 @@ class _ProductsPageState extends State<ProductsPage> {
     var id = item['_id'].toString();
     var name = item['name'].toString();
     var description = item['description'].toString();
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) => EditProduct(
-    //               id: id,
-    //               name: name,
-    //               description: description,
-    //             )));
+    var barcode = item['barcode'].toString();
+    var storeID = item['store'].toString();
+    var price = item['productPrice'].toString();
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EditProduct(
+                  id: id,
+                  name: name,
+                  description: description,
+                  barcode: barcode,
+                  storeID: storeID,
+                  price: price,
+                )));
   }
 
   deleteProduct(item) {
@@ -250,7 +263,7 @@ class _ProductsPageState extends State<ProductsPage> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Message"),
-      content: Text("Would you like to delete this user?"),
+      content: Text("Would you like to delete this product?"),
       actions: [
         noButton,
         yesButton,

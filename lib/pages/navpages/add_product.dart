@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:matp/models/store_model.dart';
 import 'package:matp/pages/navpages/products_page.dart';
 import 'package:matp/pages/util.dart';
-
+import 'package:matp/models/store_model.dart';
 //const String BASE_API = "http://docker101.tk/api/products/add";
 
 showMessage(BuildContext context, String contentMessage) {
@@ -49,6 +52,20 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController _controllerBarcode = new TextEditingController();
   final TextEditingController _controllerStoreID = new TextEditingController();
   final TextEditingController _controllerPrice = new TextEditingController();
+
+  late List<StoreModel> stores = [
+    // StoreModel ({id: "123", Name: "A"}),
+    // StoreModel({id: "123", Name: "A", Location: "B"})
+  ];
+
+  // final stores = List<String>.generate(10000, (i) => "Item $i");
+
+// final stores = List<StoreModel>.generate(
+//   1000,
+//   (i) => i % 6 == 0
+//       ? HeadingItem('Heading $i')
+//       : MessageItem('Sender $i', 'Message body $i'),
+// );
 
   @override
   Widget build(BuildContext context) {
@@ -115,19 +132,19 @@ class _AddProductState extends State<AddProduct> {
           ),
         ),
 
-/*
-        SizedBox(height: 30,),
-        //DropdownButton(items: [], onChanged:),
+        SizedBox(
+          height: 30,
+        ),
+        // DropdownButton(items: [], onChanged:),
         DropdownButton<String>(
-          items: <String>['A', 'B', 'C', 'D'].map((String value) {
+          items: stores.map((StoreModel store) {
             return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
+              value: store.id,
+              child: Text(store.Name ?? ""),
             );
           }).toList(),
           onChanged: (_) {},
         ),
-*/
 
         SizedBox(
           height: 40,
@@ -235,7 +252,7 @@ class _AddProductState extends State<AddProduct> {
         var message = json.decode(response.body)['message'];
         showMessage(context, message);
       } else {
-        var messageError = "Couldn't not connect!!";
+        var messageError = "Couldn't connect!!";
         showMessage(context, messageError);
       }
     }
