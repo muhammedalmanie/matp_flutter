@@ -1,12 +1,17 @@
 import 'dart:developer';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:matp/models/store_model.dart';
+import 'package:matp/pages/navpages/home_page.dart';
+import 'package:matp/pages/navpages/product_data.dart';
 import 'package:matp/pages/navpages/products_page.dart';
+import 'package:matp/pages/navpages/store_page.dart';
 import 'package:matp/pages/util.dart';
 import 'package:matp/models/store_model.dart';
+import 'package:gestures/gestures.dart';
 //const String BASE_API = "http://docker101.tk/api/products/add";
 
 showMessage(BuildContext context, String contentMessage) {
@@ -86,7 +91,7 @@ class _AddProductState extends State<AddProduct> {
         ),
         TextField(
           controller: _controllerName,
-          cursorColor: Colors.pink,
+          cursorColor: Colors.blue,
           decoration: InputDecoration(
             hintText: "Name",
           ),
@@ -96,7 +101,7 @@ class _AddProductState extends State<AddProduct> {
         ),
         TextField(
           controller: _controllerDescription,
-          cursorColor: Colors.pink,
+          cursorColor: Colors.blue,
           decoration: InputDecoration(
             hintText: "Description",
           ),
@@ -106,7 +111,7 @@ class _AddProductState extends State<AddProduct> {
         ),
         TextField(
           controller: _controllerBarcode,
-          cursorColor: Colors.pink,
+          cursorColor: Colors.blue,
           decoration: InputDecoration(
             hintText: "Barcode",
           ),
@@ -116,7 +121,7 @@ class _AddProductState extends State<AddProduct> {
         ),
         TextField(
           controller: _controllerStoreID,
-          cursorColor: Colors.pink,
+          cursorColor: Colors.blue,
           decoration: InputDecoration(
             hintText: "Store ID",
           ),
@@ -126,7 +131,7 @@ class _AddProductState extends State<AddProduct> {
         ),
         TextField(
           controller: _controllerPrice,
-          cursorColor: Colors.pink,
+          cursorColor: Colors.blue,
           decoration: InputDecoration(
             hintText: "Price",
           ),
@@ -145,6 +150,45 @@ class _AddProductState extends State<AddProduct> {
           }).toList(),
           onChanged: (_) {},
         ),
+
+        SizedBox(
+          height: 30,
+        ),
+        RichText(
+          text: TextSpan(children: [
+            TextSpan(
+                text: 'Did not find a store?',
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StorePage(),
+                        ));
+                  }),
+          ]),
+        ),
+
+        // SizedBox(
+        //   height: 30,
+        // ),
+        // FlatButton(
+        //     color: Colors.grey,
+        //     onPressed: () {
+        //       Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //             builder: (context) => StorePage(),
+        //           ));
+        //     },
+        //     child: Text(
+        //       "Did not find a store?",
+        //       style: TextStyle(color: Colors.white),
+        //     )),
 
         SizedBox(
           height: 40,

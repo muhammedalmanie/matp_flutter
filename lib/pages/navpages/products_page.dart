@@ -9,6 +9,7 @@ import 'package:matp/pages/navpages/product_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:matp/pages/navpages/edit_product.dart';
+import 'package:anim_search_bar/anim_search_bar.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({Key? key}) : super(key: key);
@@ -87,22 +88,68 @@ class _ProductsPageState extends State<ProductsPage> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Products"),
-          leading: IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => showProductDialog(),
-            /*() {
-            const appProduct = 'http://docker101.tk/api/products/add';
-            launchURL(appProduct);
-          },*/
-          ),
+      appBar: AppBar(
+        title: Text("Products"),
+        leading: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => showProductDialog(),
         ),
-        body: ListView.builder(
-            itemCount: products == null ? 0 : products.length,
-            itemBuilder: (BuildContext context, int index) {
-              return cardItem(products[index]);
-            }));
+
+        //     AnimSearchBar(
+        //   width: 400,
+        //   textController: textController,
+        //   onSuffixTap: () {
+        //     setState(() {
+        //       textController.clear();
+        //     });
+        //   },
+        // ),
+      ),
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              searchBar(),
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: SizedBox(
+                    height: 300.0,
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: products == null ? 0 : products.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return cardItem(products[index]);
+                        })),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+
+    //   body: new Container(
+    //       color: Color(0xff258DED),
+    //       height: 400.0,
+    //       alignment: Alignment.center,
+    //       child: new Column(
+    //           children: [
+    //               new Container(
+
+    //               ),
+    //               new Container(
+
+    //               ),
+    //           ],
+    //       ),
+    //   )
+    // );
   }
 
   /*return Card(
@@ -125,6 +172,25 @@ class _ProductsPageState extends State<ProductsPage> {
                     MaterialPageRoute(
                         builder: (context) => ProductDetails(index)));
               },*/
+
+  Widget searchBar() {
+    return Card(
+      child: SizedBox(
+        width: 550,
+        child: TextField(
+            cursorColor: Colors.grey,
+            decoration: InputDecoration(
+              fillColor: Colors.white,
+              filled: true,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none),
+              hintText: 'Search',
+              hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
+            )),
+      ),
+    );
+  }
 
   Widget cardItem(item) {
     return Slidable(
@@ -151,6 +217,11 @@ class _ProductsPageState extends State<ProductsPage> {
                 (context) {
               deleteProduct(item);
             },
+
+            // (context) {
+            //   showDeleteAlert(context, item);
+            //     },
+
             backgroundColor: Color(0xFFFE4A49),
             foregroundColor: Colors.white,
             icon: Icons.delete,
@@ -161,12 +232,11 @@ class _ProductsPageState extends State<ProductsPage> {
             onPressed:
                 //print('You pressed the button.'),
                 //editProduct(item),
-                doNothing,
+                //doNothing,
 
-            // (context) {
-            //           editProduct(item);
-            //         },
-
+                (context) {
+              editProduct(item);
+            },
             backgroundColor: Color(0xFF21B7CA),
             foregroundColor: Colors.white,
             icon: Icons.edit,
@@ -185,11 +255,12 @@ class _ProductsPageState extends State<ProductsPage> {
     return Card(
       child: ListTile(
         leading: Image.network(
+          'https://waapple.org/wp-content/uploads/2021/06/Variety_Cosmic-Crisp-transparent-300x300.png',
           //products[index]['_id'],
-          item['_id'],
+          //item['_id'],
           fit: BoxFit.fill,
-          width: 250,
-          height: 250,
+          // width: 300,
+          // height: 300,
           alignment: Alignment.center,
         ),
         title: Text(item['name'] ?? ''),
@@ -206,6 +277,7 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
   editProduct(item) {
+    log("edited");
     var id = item['_id'].toString();
     var name = item['name'].toString();
     var description = item['description'].toString();

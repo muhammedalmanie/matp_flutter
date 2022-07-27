@@ -39,6 +39,9 @@ dependencies:
   url_launcher: ^6.1.4
   flutter_slidable: ^2.0.0
   image_picker: ^0.8.5+3
+  gestures: ^1.0.0
+  anim_search_bar: ^2.0.2
+
   
 
 dev_dependencies:
