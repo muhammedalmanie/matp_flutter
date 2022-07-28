@@ -9,7 +9,7 @@ class EditProduct extends StatefulWidget {
   String name;
   String description;
   String barcode;
-  String storeID;
+  //String storeID;
   String price;
 
   EditProduct(
@@ -17,7 +17,7 @@ class EditProduct extends StatefulWidget {
       required this.name,
       required this.description,
       required this.barcode,
-      required this.storeID,
+      //required this.storeID,
       required this.price});
   @override
   _EditProductState createState() => _EditProductState();
@@ -28,7 +28,7 @@ class _EditProductState extends State<EditProduct> {
   final TextEditingController _controllerDescription =
       new TextEditingController();
   final TextEditingController _controllerBarcode = new TextEditingController();
-  final TextEditingController _controllerStoreID = new TextEditingController();
+  //final TextEditingController _controllerStoreID = new TextEditingController();
   final TextEditingController _controllerPrice = new TextEditingController();
 
   String id = '';
@@ -42,7 +42,7 @@ class _EditProductState extends State<EditProduct> {
       _controllerName.text = widget.name;
       _controllerDescription.text = widget.description;
       _controllerBarcode.text = widget.barcode;
-      _controllerStoreID.text = widget.storeID;
+      //_controllerStoreID.text = widget.storeID;
       _controllerPrice.text = widget.price;
     });
   }
@@ -94,13 +94,13 @@ class _EditProductState extends State<EditProduct> {
         SizedBox(
           height: 30,
         ),
-        TextField(
-          controller: _controllerStoreID,
-          cursorColor: Colors.black38,
-          decoration: InputDecoration(
-            hintText: "Store ID",
-          ),
-        ),
+        // TextField(
+        //   controller: _controllerStoreID,
+        //   cursorColor: Colors.black38,
+        //   decoration: InputDecoration(
+        //     hintText: "Store ID",
+        //   ),
+        // ),
         SizedBox(
           height: 30,
         ),
@@ -128,10 +128,12 @@ class _EditProductState extends State<EditProduct> {
   }
 
   editProduct() async {
+    Future.delayed(Duration.zero, () => showAlert(context));
+
     var name = _controllerName.text;
     var description = _controllerDescription.text;
     var barcode = _controllerBarcode.text;
-    var storeID = _controllerStoreID.text;
+    //var storeID = _controllerStoreID.text;
     var price = _controllerPrice.text;
 
     if (name.isNotEmpty && description.isNotEmpty) {
@@ -156,5 +158,13 @@ class _EditProductState extends State<EditProduct> {
         showMessage(context, messageError);
       }
     }
+  }
+
+  void showAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: Text("succsess"),
+            ));
   }
 }

@@ -41,6 +41,7 @@ dependencies:
   image_picker: ^0.8.5+3
   gestures: ^1.0.0
   anim_search_bar: ^2.0.2
+  auto_reload: ^1.0.0
 
   
 

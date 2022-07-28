@@ -12,6 +12,8 @@ import 'package:matp/pages/navpages/store_page.dart';
 import 'package:matp/pages/util.dart';
 import 'package:matp/models/store_model.dart';
 import 'package:gestures/gestures.dart';
+import 'package:auto_reload/auto_reload.dart';
+
 //const String BASE_API = "http://docker101.tk/api/products/add";
 
 showMessage(BuildContext context, String contentMessage) {
@@ -263,7 +265,13 @@ class _AddProductState extends State<AddProduct> {
   }
 
   ///////////////////////////////////////////
+
+  //int _countOfReload = 0;
+
   createNewProduct() async {
+    Future.delayed(Duration.zero, () => showAlert(context));
+    //startAutoReload();
+
     var name = _controllerName.text;
     var description = _controllerDescription.text;
     var barcode = _controllerBarcode.text;
@@ -303,4 +311,11 @@ class _AddProductState extends State<AddProduct> {
   }
   /////////////////////////////
 
+  void showAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: Text("You Have Added a Product Successfully"),
+            ));
+  }
 }

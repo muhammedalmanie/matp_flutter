@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:matp/pages/navpages/edit_product.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:matp/pages/util.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
+  final TextEditingController controller = TextEditingController();
   late String data;
   //var products;
   List products = [];
@@ -173,11 +175,13 @@ class _ProductsPageState extends State<ProductsPage> {
                         builder: (context) => ProductDetails(index)));
               },*/
 
+  //var controller;
   Widget searchBar() {
     return Card(
       child: SizedBox(
         width: 550,
         child: TextField(
+            controller: controller,
             cursorColor: Colors.grey,
             decoration: InputDecoration(
               fillColor: Colors.white,
@@ -187,9 +191,20 @@ class _ProductsPageState extends State<ProductsPage> {
                   borderSide: BorderSide.none),
               hintText: 'Search',
               hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
-            )),
+            )
+            //onChanged: searchProduct,
+            ),
       ),
     );
+  }
+
+  void searchProduct(String query) {
+    final suggestions = products.where((item) {
+      final bookTitle = item.name.toLowerCase();
+      final input = query.toLowerCase();
+      return bookTitle.contains(input);
+    }).toList();
+    setState(() => products = suggestions);
   }
 
   Widget cardItem(item) {
@@ -282,7 +297,7 @@ class _ProductsPageState extends State<ProductsPage> {
     var name = item['name'].toString();
     var description = item['description'].toString();
     var barcode = item['barcode'].toString();
-    var storeID = item['store'].toString();
+    //var storeID = item['store'].toString();
     var price = item['productPrice'].toString();
 
     Navigator.push(
@@ -293,13 +308,13 @@ class _ProductsPageState extends State<ProductsPage> {
                   name: name,
                   description: description,
                   barcode: barcode,
-                  storeID: storeID,
+                  //storeID: storeID,
                   price: price,
                 )));
   }
 
   deleteProduct(item) {
-    log("message");
+    Future.delayed(Duration.zero, () => showAlert(context));
     var url = Uri.http("localhost:3000", "/api/products/", {'id': item['_id']});
     var response = http.delete(url, headers: {
       "Content-Type": "application/json",
@@ -311,44 +326,52 @@ class _ProductsPageState extends State<ProductsPage> {
         });
   }
 
-  showDeleteAlert(BuildContext context, item) {
-    // set up the buttons
-    Widget noButton = FlatButton(
-      child: Text(
-        "No",
-        style: TextStyle(color: Colors.pink),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    Widget yesButton = FlatButton(
-      child: Text("Yes", style: TextStyle(color: Colors.pink)),
-      onPressed: () {
-        Navigator.pop(context);
-
-        deleteProduct(item['_id']);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Message"),
-      content: Text("Would you like to delete this product?"),
-      actions: [
-        noButton,
-        yesButton,
-      ],
-    );
-    // show the dialog
+  void showAlert(BuildContext context) {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+        context: context,
+        builder: (context) => AlertDialog(
+              content: Text("You Have Deleted a Product Successfully"),
+            ));
   }
+
+  // showDeleteAlert(BuildContext context, item) {
+  //   // set up the buttons
+  //   Widget noButton = FlatButton(
+  //     child: Text(
+  //       "No",
+  //       style: TextStyle(color: Colors.pink),
+  //     ),
+  //     onPressed: () {
+  //       Navigator.pop(context);
+  //     },
+  //   );
+
+  //   Widget yesButton = FlatButton(
+  //     child: Text("Yes", style: TextStyle(color: Colors.pink)),
+  //     onPressed: () {
+  //       Navigator.pop(context);
+
+  //       deleteProduct(item['_id']);
+  //     },
+  //   );
+
+  //   // set up the AlertDialog
+  //   AlertDialog alert = AlertDialog(
+  //     title: Text("Message"),
+  //     content: Text("Would you like to delete this product?"),
+  //     actions: [
+  //       noButton,
+  //       yesButton,
+  //     ],
+  //   );
+  //   // show the dialog
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return alert;
+  //     },
+  //   );
+  // }
 
   void doNothing(BuildContext context) {
     print("delete");

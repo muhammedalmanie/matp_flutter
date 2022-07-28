@@ -69,8 +69,9 @@ class _StorePageState extends State<StorePage> {
   }
 
   ///////////////////////////////////////////
-  void createNewStore() async {
-    log("creating store");
+  createNewStore() async {
+    Future.delayed(Duration.zero, () => showAlert(context));
+    log("Hdsddswwdddgs");
 
     var name = _controllerName.text;
     var location = _controllerLocation.text;
@@ -79,7 +80,7 @@ class _StorePageState extends State<StorePage> {
       var url = Uri.parse("http://localhost:3000/api/stores/add");
       var bodyData = json.encode({
         "name": name,
-        "location": Location,
+        "location": location,
       });
       var response = await http.post(url,
           headers: {
@@ -103,4 +104,11 @@ class _StorePageState extends State<StorePage> {
   }
   /////////////////////////////
 
+  void showAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: Text("You Have Added a Store Successfully"),
+            ));
+  }
 }
