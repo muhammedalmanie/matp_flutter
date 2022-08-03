@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:matp/pages/navpages/products_page.dart';
 import 'package:matp/pages/util.dart';
 
 //const String BASE_API = "http://docker101.tk/api/products/add";
@@ -71,7 +72,7 @@ class _StorePageState extends State<StorePage> {
   ///////////////////////////////////////////
   createNewStore() async {
     Future.delayed(Duration.zero, () => showAlert(context));
-    log("Hdsddswwdddgs");
+    //log("Adding Store");
 
     var name = _controllerName.text;
     var location = _controllerLocation.text;
@@ -109,6 +110,22 @@ class _StorePageState extends State<StorePage> {
         context: context,
         builder: (context) => AlertDialog(
               content: Text("You Have Added a Store Successfully"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    //Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProductsPage()),
+                    );
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.all(14),
+                    child: const Text("OK"),
+                  ),
+                ),
+              ],
             ));
   }
 }

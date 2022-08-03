@@ -5,20 +5,23 @@ import 'package:matp/pages/util.dart';
 import 'package:matp/pages/navpages/products_page.dart';
 
 class EditProduct extends StatefulWidget {
+  // const EditProduct({Key? key}) : super(key: key);
+
   String id;
   String name;
   String description;
   String barcode;
-  //String storeID;
-  String price;
+  // String storeID;
+  // String price;
 
   EditProduct(
       {required this.id,
       required this.name,
       required this.description,
-      required this.barcode,
-      //required this.storeID,
-      required this.price});
+      required this.barcode
+      // required this.storeID,
+      // required this.price
+      });
   @override
   _EditProductState createState() => _EditProductState();
 }
@@ -28,8 +31,8 @@ class _EditProductState extends State<EditProduct> {
   final TextEditingController _controllerDescription =
       new TextEditingController();
   final TextEditingController _controllerBarcode = new TextEditingController();
-  //final TextEditingController _controllerStoreID = new TextEditingController();
-  final TextEditingController _controllerPrice = new TextEditingController();
+  // final TextEditingController _controllerStoreID = new TextEditingController();
+  // final TextEditingController _controllerPrice = new TextEditingController();
 
   String id = '';
   @override
@@ -42,8 +45,8 @@ class _EditProductState extends State<EditProduct> {
       _controllerName.text = widget.name;
       _controllerDescription.text = widget.description;
       _controllerBarcode.text = widget.barcode;
-      //_controllerStoreID.text = widget.storeID;
-      _controllerPrice.text = widget.price;
+      // _controllerStoreID.text = widget.storeID;
+      // _controllerPrice.text = widget.price;
     });
   }
 
@@ -101,16 +104,16 @@ class _EditProductState extends State<EditProduct> {
         //     hintText: "Store ID",
         //   ),
         // ),
-        SizedBox(
-          height: 30,
-        ),
-        TextField(
-          controller: _controllerPrice,
-          cursorColor: Colors.black38,
-          decoration: InputDecoration(
-            hintText: "price",
-          ),
-        ),
+        // SizedBox(
+        //   height: 30,
+        // ),
+        // TextField(
+        //   controller: _controllerPrice,
+        //   cursorColor: Colors.black38,
+        //   decoration: InputDecoration(
+        //     hintText: "price",
+        //   ),
+        // ),
         SizedBox(
           height: 40,
         ),
@@ -133,8 +136,8 @@ class _EditProductState extends State<EditProduct> {
     var name = _controllerName.text;
     var description = _controllerDescription.text;
     var barcode = _controllerBarcode.text;
-    //var storeID = _controllerStoreID.text;
-    var price = _controllerPrice.text;
+    // var storeID = _controllerStoreID.text;
+    // var price = _controllerPrice.text;
 
     if (name.isNotEmpty && description.isNotEmpty) {
       // var url = Uri.http("localhost:3000", "/api/products/edit/", {'id': item['_id']});
@@ -164,7 +167,23 @@ class _EditProductState extends State<EditProduct> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              content: Text("succsess"),
+              content: Text("Succsess!"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    //Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProductsPage()),
+                    );
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.all(14),
+                    child: const Text("OK"),
+                  ),
+                ),
+              ],
             ));
   }
 }

@@ -297,8 +297,8 @@ class _ProductsPageState extends State<ProductsPage> {
     var name = item['name'].toString();
     var description = item['description'].toString();
     var barcode = item['barcode'].toString();
-    //var storeID = item['store'].toString();
-    var price = item['productPrice'].toString();
+    // var storeID = item['store'].toString();
+    // var price = item['productPrice'].toString();
 
     Navigator.push(
         context,
@@ -308,8 +308,8 @@ class _ProductsPageState extends State<ProductsPage> {
                   name: name,
                   description: description,
                   barcode: barcode,
-                  //storeID: storeID,
-                  price: price,
+                  // storeID: storeID,
+                  // price: price,
                 )));
   }
 
@@ -331,6 +331,22 @@ class _ProductsPageState extends State<ProductsPage> {
         context: context,
         builder: (context) => AlertDialog(
               content: Text("You Have Deleted a Product Successfully"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    //Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProductsPage()),
+                    );
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.all(14),
+                    child: const Text("OK"),
+                  ),
+                ),
+              ],
             ));
   }
 

@@ -316,6 +316,22 @@ class _AddProductState extends State<AddProduct> {
         context: context,
         builder: (context) => AlertDialog(
               content: Text("You Have Added a Product Successfully"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    //Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProductsPage()),
+                    );
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.all(14),
+                    child: const Text("OK"),
+                  ),
+                ),
+              ],
             ));
   }
 }
