@@ -23,6 +23,7 @@ class _StorePageState extends State<StorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 239, 123, 87),
         title: Text("Store Creation"),
       ),
       body: getBody(),

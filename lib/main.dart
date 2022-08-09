@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matp/pages/login_page.dart';
 import 'package:matp/pages/navpages/main_page.dart';
 
 void main() {
@@ -12,11 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'MATP CRUD',
       theme: ThemeData(
         primarySwatch: Colors.grey,
+        //fontFamily: 'CormorantGaramond',
       ),
-      home: MainPage(), //const MyHomePage(title: 'MATP'),
+      home: HomePage(), //const MyHomePage(title: 'MATP'),
     );
   }
 }

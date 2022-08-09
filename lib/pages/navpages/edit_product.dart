@@ -54,6 +54,7 @@ class _EditProductState extends State<EditProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 239, 123, 87),
         title: Text("Editing Product"),
       ),
       body: getBody(),
@@ -118,7 +119,7 @@ class _EditProductState extends State<EditProduct> {
           height: 40,
         ),
         FlatButton(
-            color: Colors.black38,
+            color: Colors.blue,
             onPressed: () {
               editProduct();
             },
@@ -178,9 +179,10 @@ class _EditProductState extends State<EditProduct> {
                     );
                   },
                   child: Container(
-                    color: Colors.white,
+                    color: Colors.blue,
                     padding: const EdgeInsets.all(14),
-                    child: const Text("OK"),
+                    child:
+                        const Text("OK", style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],

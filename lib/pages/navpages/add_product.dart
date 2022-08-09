@@ -74,10 +74,15 @@ class _AddProductState extends State<AddProduct> {
 //       : MessageItem('Sender $i', 'Message body $i'),
 // );
 
+  Future<http.Response> fetchAlbum() {
+    return http.get(Uri.parse('http://localhost:3000/api/stores/list'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 239, 123, 87),
         title: Text("Product Creation"),
       ),
       body: getBody(),
@@ -152,6 +157,47 @@ class _AddProductState extends State<AddProduct> {
           }).toList(),
           onChanged: (_) {},
         ),
+
+        // Container(
+        //   padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+        //   color: Colors.white,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //     children: <Widget>[
+        //       Expanded(
+        //         child: DropdownButtonHideUnderline(
+        //           child: ButtonTheme(
+        //             alignedDropdown: true,
+        //             child: DropdownButton<String>(
+        //               value: _myState,
+        //               iconSize: 30,
+        //               icon: (null),
+        //               style: TextStyle(
+        //                 color: Colors.black54,
+        //                 fontSize: 16,
+        //               ),
+        //               hint: Text('Select State'),
+        //               onChanged: (String newValue) {
+        //                 setState(() {
+        //                   _myState = newValue;
+        //                   _getCitiesList();
+        //                   print(_myState);
+        //                 });
+        //               },
+        //               items: statesList?.map((item) {
+        //                     return new DropdownMenuItem(
+        //                       child: new Text(item['name']),
+        //                       value: item['id'].toString(),
+        //                     );
+        //                   })?.toList() ??
+        //                   [],
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
 
         SizedBox(
           height: 30,
@@ -326,9 +372,10 @@ class _AddProductState extends State<AddProduct> {
                     );
                   },
                   child: Container(
-                    color: Colors.white,
+                    color: Colors.blue,
                     padding: const EdgeInsets.all(14),
-                    child: const Text("OK"),
+                    child:
+                        const Text("OK", style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],

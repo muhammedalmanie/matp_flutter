@@ -91,6 +91,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 239, 123, 87),
         title: Text("Products"),
         leading: IconButton(
           icon: Icon(Icons.add),
@@ -193,6 +194,7 @@ class _ProductsPageState extends State<ProductsPage> {
               hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
             )
             //onChanged: searchProduct,
+
             ),
       ),
     );
@@ -341,9 +343,10 @@ class _ProductsPageState extends State<ProductsPage> {
                     );
                   },
                   child: Container(
-                    color: Colors.white,
+                    color: Colors.blue,
                     padding: const EdgeInsets.all(14),
-                    child: const Text("OK"),
+                    child:
+                        const Text("OK", style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],
