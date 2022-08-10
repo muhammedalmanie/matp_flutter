@@ -42,15 +42,16 @@ dependencies:
   pull_to_refresh: ^2.0.0
   url_launcher: ^6.1.4
   flutter_slidable: ^2.0.0
-  image_picker: ^0.8.5+3
+  #image_picker: ^0.8.5+3
   gestures: ^1.0.0
   anim_search_bar: ^2.0.2
   auto_reload: ^1.0.0
-  keycloak_flutter: ^0.0.3
+  #keycloak_flutter: ^0.0.3
   openid_client: ^0.4.6
-  flutter_session: ^0.1.1
-  flutter_appauth: ^4.2.0
-  flutter_secure_storage: ^5.1.0
+  #flutter_session: ^0.1.1
+  #flutter_appauth: ^4.2.0
+  #flutter_secure_storage: ^5.1.0
+  #aad_oauth: "^0.4.0"
 
   
 

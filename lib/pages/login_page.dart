@@ -112,42 +112,6 @@
 //   }
 // }
 
-// // import the io version
-// import 'package:openid_client/openid_client_io.dart';
-// // use url launcher package
-// import 'package:url_launcher/url_launcher.dart';
-
-// authenticate(Uri uri, String clientId, List<String> scopes) async {
-
-//     // create the client
-//     var issuer = await Issuer.discover(uri);
-//     var client = new Client(issuer, clientId);
-
-//     // create a function to open a browser with an url
-//     urlLauncher(String url) async {
-//         if (await canLaunch(url)) {
-//           await launch(url, forceWebView: true);
-//         } else {
-//           throw 'Could not launch $url';
-//         }
-//     }
-
-//     // create an authenticator
-//     var authenticator = new Authenticator(client,
-//         scopes: scopes,
-//         port: 4000, urlLancher: urlLauncher);
-
-//     // starts the authentication
-//     var c = await authenticator.authorize();
-
-//     // close the webview when finished
-//     closeWebView();
-
-//     // return the user info
-//     return await c.getUserInfo();
-
-// }
-
 import 'package:flutter/material.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:openid_client/openid_client_io.dart';
@@ -175,34 +139,84 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Welcome"),
-      ),
+      backgroundColor: Color.fromARGB(255, 255, 228, 190),
+
+      // appBar: AppBar(
+      //   title: Text("Welcome"),
+      // ),
       body: Container(
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                child: Text("Login"),
-                onPressed: () async {
-                  var tokenInfo = await authenticate(
-                      Uri.parse(_issuer), _clientId, _scopes);
-                  print(tokenInfo.accessToken);
-                },
+              Image.network(
+                'https://appcoup.com/assets/img/groceryappdev/grocery-app-development-company.png',
+                width: 430,
+                height: 280,
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Welcome to MATP!",
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Color.fromARGB(255, 222, 105, 21),
+                  decorationStyle: TextDecorationStyle.wavy,
+                ),
+              ),
+
+              // ElevatedButton(
+              //   child: Text("Login"),
+              //   onPressed: () async {
+              //     var tokenInfo = await authenticate(
+              //         Uri.parse(_issuer), _clientId, _scopes);
+              //     print(tokenInfo.accessToken);
+              //   },
+              // ),
+              SizedBox(
+                height: 60,
+              ),
+              Image.network(
+                // <-- SEE HERE
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/800px-Google_%22G%22_Logo.svg.png',
+                width: 90,
+                height: 40,
+              ),
+              SizedBox(
+                height: 15,
               ),
               ElevatedButton(
-                child: Text("Logout"),
-                onPressed: () async {
-                  logout();
+                //color: Colors.blue,
+
+                child: Text("Sign in with Google",
+                    style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  //logout();
+                  const url =
+                      'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?scope=openid%20profile%20email&state=n5OpZCVteCDmM8Dq0X7JnZJuJqV_dGq32tKbTbXcWzI.5JL-a6pIESA.account-console&response_type=code&client_id=200959405552-7ks6frqjahgarr6cr22ctbu8326ohcie.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Frealms%2Fmatp%2Fbroker%2Fgoogle%2Fendpoint&nonce=v9shTVAxBBpin4nE8Ir_rA&flowName=GeneralOAuthFlow';
+                  launchURL(url);
                 },
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    textStyle:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'couldnt launch $url';
+    }
   }
 
   Future<TokenResponse> authenticate(
