@@ -48,8 +48,8 @@ dependencies:
   auto_reload: ^1.0.0
   keycloak_flutter: ^0.0.3
   openid_client: ^0.4.6
-  flutter_session: ^0.1.1
-  flutter_appauth: ^4.2.0
+  # flutter_session: ^0.1.1
+  # flutter_appauth: ^4.2.0
   flutter_secure_storage: ^5.1.0
 
   

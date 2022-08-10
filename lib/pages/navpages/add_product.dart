@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:html';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -60,11 +61,13 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController _controllerStoreID = new TextEditingController();
   final TextEditingController _controllerPrice = new TextEditingController();
 
-  late List<StoreModel> stores = [
-    // StoreModel ({id: "123", Name: "A"}),
-    // StoreModel({id: "123", Name: "A", Location: "B"})
-  ];
-
+  late Future<List<StoreModel>> _future;
+  // late List<StoreModel> stores = [
+  //   StoreModel.fromJson(json.decode('{"_id": "2", "name": "A"}')),
+  //   StoreModel.fromJson(
+  //       json.decode('{"_id": "1", "name": "B", "location": "B"}'))
+  // ];
+  late String _selectedStore;
   // final stores = List<String>.generate(10000, (i) => "Item $i");
 
 // final stores = List<StoreModel>.generate(
@@ -73,6 +76,33 @@ class _AddProductState extends State<AddProduct> {
 //       ? HeadingItem('Heading $i')
 //       : MessageItem('Sender $i', 'Message body $i'),
 // );
+  @override
+  void initState() {
+    super.initState();
+    _future = _getStores();
+  }
+
+  Future<List<StoreModel>> _getStores() async {
+    final response = await http.get(
+      Uri.parse('http://localhost:3000/api/stores/list'),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization":
+            "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnXy14azJucGJfM1lwQWo1VzFDVE1wU1ZJbUlzZkgxSFVWVUZ2VnBUSjFNIn0.eyJleHAiOjE2NjAxMTk1ODIsImlhdCI6MTY2MDExOTI4MiwianRpIjoiYmZjNGMyZjUtZDEwOC00MGUxLWI4ODMtMzk0NGE1YWU2OTYyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2F1dGgvcmVhbG1zL21hdHAiLCJhdWQiOlsiTUFUUCIsImFjY291bnQiXSwic3ViIjoiNmU4OGZmZTAtZjcyYS00ZDhiLThlZjYtNWM1N2VmMDlkNzE3IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiTUFUUCIsInNlc3Npb25fc3RhdGUiOiI0YjQ2YjkxNC1hNmY2LTQ2ODktOGUxOS1lMGQ5NTA4MDYzMzIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1tYXRwIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImFwcC11c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiTUFUUCI6eyJyb2xlcyI6WyJ1c2VyIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgbXktYXBwbGljYXRpb24tc2NvcGUgZW1haWwiLCJzaWQiOiI0YjQ2YjkxNC1hNmY2LTQ2ODktOGUxOS1lMGQ5NTA4MDYzMzIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicHJlZmVycmVkX3VzZXJuYW1lIjoidXNlcjEifQ.IxBFAiTHCG-UVtitzPwJfgLhueAYy1_pkbVBoX4feLPK_l_Ve-AOBtR2i0zUCPDm_5ZQYwFpDUMpkRYUolREnAPbHoN7aucridcFklTJdcWNv_QMbloN5x7zv9k4fvQD9uBjH632dFnvG00N0X0CNmdhjM56o1rF7splctypbh80VqQwUhWBjTi6UrHKDCRKNByFQIUZaEQdGBCv4tYY-Z4io1VreHrMDrQ61875QdP1pucg6dVLQc12kv3awpYfCbvkrXwtKL9PqxpY9Kcl62CBjD-VnxS-StihUq_HnLnbheqabc7brqsIqZteSVa78W5bKpoyRNNegBkxY0fs3A"
+      },
+    );
+
+    List<dynamic> jsonResponse = jsonDecode(response.body);
+
+    final Iterable<StoreModel> storesList =
+        jsonResponse.map((item) => StoreModel.fromJson(item));
+
+    // final storesResponse = json.map(( value) {
+    //   return StoreModel.fromJson(value);
+    // });
+    return storesList.toList();
+  }
 
   Future<http.Response> fetchAlbum() {
     return http.get(Uri.parse('http://localhost:3000/api/stores/list'));
@@ -148,16 +178,46 @@ class _AddProductState extends State<AddProduct> {
           height: 30,
         ),
         // DropdownButton(items: [], onChanged:),
-        DropdownButton<String>(
-          items: stores.map((StoreModel store) {
-            return DropdownMenuItem<String>(
-              value: store.id,
-              child: Text(store.Name ?? ""),
-            );
-          }).toList(),
-          onChanged: (_) {},
-        ),
+        FutureBuilder<List<StoreModel>>(
+            future: _future,
+            builder: ((context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
 
+              if (snapshot.data == null) {
+                return const CircularProgressIndicator();
+              }
+              _selectedStore = "";
+              return DropdownButton<String>(
+                  // style: new TextStyle(
+                  //   color: Colors.white,
+                  // ),
+                  value: _selectedStore,
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: "",
+                      enabled: false,
+                      child: Text("Select one..."),
+                    ),
+                    ...snapshot.data!.map((StoreModel store) {
+                      return DropdownMenuItem<String>(
+                        value: store.id,
+                        // key: Key(store.id ?? ""),
+                        child: Text(
+                          store.Name ?? "",
+                          // style: TextStyle(color: Colors.red),
+                        ),
+                      );
+                    })
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedStore = value!;
+                    });
+                    print(_selectedStore);
+                  });
+            })),
         // Container(
         //   padding: EdgeInsets.only(left: 15, right: 15, top: 5),
         //   color: Colors.white,
@@ -321,7 +381,7 @@ class _AddProductState extends State<AddProduct> {
     var name = _controllerName.text;
     var description = _controllerDescription.text;
     var barcode = _controllerBarcode.text;
-    var storeID = _controllerStoreID.text;
+    //var storeID = _selectedStore;
     var price = _controllerPrice.text;
 
     // && barcode.isNotEmpty && storeID.isNotEmpty && price.isNotEmpty
@@ -332,9 +392,10 @@ class _AddProductState extends State<AddProduct> {
         "name": name,
         "description": description,
         "barcode": barcode,
-        "storeID": storeID,
+        "storeID": _selectedStore,
         "price": price,
       });
+
       var response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
