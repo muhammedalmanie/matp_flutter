@@ -58,13 +58,13 @@ class _StorePageState extends State<StorePage> {
           height: 40,
         ),
         FlatButton(
-            color: Colors.blue,
+            color: Color.fromARGB(255, 239, 123, 87),
             onPressed: () {
               createNewStore();
             },
             child: Text(
               "Done",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ))
       ],
     );
@@ -121,9 +121,10 @@ class _StorePageState extends State<StorePage> {
                     );
                   },
                   child: Container(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 239, 123, 87),
                     padding: const EdgeInsets.all(14),
-                    child: const Text("OK"),
+                    child:
+                        const Text("OK", style: TextStyle(color: Colors.black)),
                   ),
                 ),
               ],

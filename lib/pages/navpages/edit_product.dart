@@ -119,13 +119,13 @@ class _EditProductState extends State<EditProduct> {
           height: 40,
         ),
         FlatButton(
-            color: Colors.blue,
+            color: Color.fromARGB(255, 239, 123, 87),
             onPressed: () {
               editProduct();
             },
             child: Text(
               "Done",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ))
       ],
     );
@@ -179,10 +179,10 @@ class _EditProductState extends State<EditProduct> {
                     );
                   },
                   child: Container(
-                    color: Colors.blue,
+                    color: Color.fromARGB(255, 239, 123, 87),
                     padding: const EdgeInsets.all(14),
                     child:
-                        const Text("OK", style: TextStyle(color: Colors.white)),
+                        const Text("OK", style: TextStyle(color: Colors.black)),
                   ),
                 ),
               ],

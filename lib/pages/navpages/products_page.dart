@@ -44,6 +44,7 @@ class _ProductsPageState extends State<ProductsPage> {
     // var url = Uri.http('docker101.tk', '/api/products');
     //http://docker101.tk/api/products
     var url = Uri.parse("http://localhost:3000/api/products");
+
     // Await the http get response, then decode the json-formatted response.
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -343,10 +344,10 @@ class _ProductsPageState extends State<ProductsPage> {
                     );
                   },
                   child: Container(
-                    color: Colors.blue,
+                    color: Color.fromARGB(255, 239, 123, 87),
                     padding: const EdgeInsets.all(14),
                     child:
-                        const Text("OK", style: TextStyle(color: Colors.white)),
+                        const Text("OK", style: TextStyle(color: Colors.black)),
                   ),
                 ),
               ],

@@ -198,7 +198,7 @@ class _AddProductState extends State<AddProduct> {
                     DropdownMenuItem<String>(
                       value: "",
                       enabled: false,
-                      child: Text("Select one..."),
+                      child: Text("Select a store..."),
                     ),
                     ...snapshot.data!.map((StoreModel store) {
                       return DropdownMenuItem<String>(
@@ -267,7 +267,7 @@ class _AddProductState extends State<AddProduct> {
             TextSpan(
                 text: 'Did not find a store?',
                 style: TextStyle(
-                  color: Colors.blue,
+                  color: Color.fromARGB(255, 239, 123, 87),
                   decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
@@ -302,13 +302,13 @@ class _AddProductState extends State<AddProduct> {
           height: 40,
         ),
         FlatButton(
-            color: Colors.blue,
+            color: Color.fromARGB(255, 239, 123, 87),
             onPressed: () {
               createNewProduct();
             },
             child: Text(
               "Done",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ))
       ],
     );
@@ -433,10 +433,10 @@ class _AddProductState extends State<AddProduct> {
                     );
                   },
                   child: Container(
-                    color: Colors.blue,
+                    color: Color.fromARGB(255, 239, 123, 87),
                     padding: const EdgeInsets.all(14),
                     child:
-                        const Text("OK", style: TextStyle(color: Colors.white)),
+                        const Text("OK", style: TextStyle(color: Colors.black)),
                   ),
                 ),
               ],

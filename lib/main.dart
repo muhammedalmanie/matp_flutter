@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         //fontFamily: 'CormorantGaramond',
       ),
-      home: MainPage(),
+      home: HomePage(),
     );
   }
 }
